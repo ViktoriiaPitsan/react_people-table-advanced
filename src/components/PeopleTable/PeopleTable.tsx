@@ -3,6 +3,7 @@ import { Person } from '../../types';
 import { PersonLink } from '../PersonLink/PersonLink';
 import { SearchLink } from '../SearchLink';
 import cn from 'classnames';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   people: Person[];
@@ -17,6 +18,10 @@ export const PeopleTable: React.FC<Props> = ({
   currentSort,
   currentOrder,
 }) => {
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+
   const getPersonByName = (name: string): Person | undefined => {
     return people.find(p => p.name === name);
   };
@@ -127,14 +132,14 @@ export const PeopleTable: React.FC<Props> = ({
                 })}
               >
                 <td>
-                  <PersonLink person={person} />
+                  <PersonLink person={person} searchParams={searchParams} />
                 </td>
                 <td>{person.sex}</td>
                 <td>{person.born}</td>
                 <td>{person.died}</td>
                 <td>
                   {mother ? (
-                    <PersonLink person={mother} />
+                    <PersonLink person={mother} searchParams={searchParams} />
                   ) : person.motherName ? (
                     <span data-cy="motherName">{person.motherName}</span>
                   ) : (
@@ -143,7 +148,7 @@ export const PeopleTable: React.FC<Props> = ({
                 </td>
                 <td>
                   {father ? (
-                    <PersonLink person={father} />
+                    <PersonLink person={father} searchParams={searchParams} />
                   ) : person.fatherName ? (
                     <span data-cy="fatherName">{person.fatherName}</span>
                   ) : (

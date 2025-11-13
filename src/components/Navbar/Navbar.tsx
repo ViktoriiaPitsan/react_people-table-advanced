@@ -1,25 +1,35 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const getLinkClass = ({ isActive }: { isActive: boolean }) =>
   isActive ? 'navbar-item has-background-grey-lighter' : 'navbar-item';
 
-export const Navbar = () => (
-  <nav
-    data-cy="nav"
-    className="navbar is-fixed-top has-shadow"
-    role="navigation"
-    aria-label="main navigation"
-  >
-    <div className="container">
-      <div className="navbar-brand">
-        <NavLink className={getLinkClass} to="/">
-          Home
-        </NavLink>
+export const Navbar = () => {
+  const location = useLocation();
 
-        <NavLink className={getLinkClass} to="/people">
-          People
-        </NavLink>
+  const getPeopleLink = () => {
+    const params = new URLSearchParams(location.search);
+
+    return `/people${params.toString() ? `?${params.toString()}` : ''}`;
+  };
+
+  return (
+    <nav
+      data-cy="nav"
+      className="navbar is-fixed-top has-shadow"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div className="container">
+        <div className="navbar-brand">
+          <NavLink className={getLinkClass} to="/">
+            Home
+          </NavLink>
+
+          <NavLink className={getLinkClass} to={getPeopleLink()}>
+            People
+          </NavLink>
+        </div>
       </div>
-    </div>
-  </nav>
-);
+    </nav>
+  );
+};
