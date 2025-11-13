@@ -25,6 +25,12 @@ export const PeopleFilters = () => {
   const [queryInput, setQueryInput] = useState(currentQuery);
   const debouncedQuery = useDebounce(queryInput, 500);
 
+  useEffect(() => {
+    if (currentQuery !== queryInput) {
+      setQueryInput(currentQuery);
+    }
+  }, [currentQuery, queryInput]);
+
   const activeCenturies = searchParams.getAll('centuries');
   const currentSex = searchParams.get('sex');
 
